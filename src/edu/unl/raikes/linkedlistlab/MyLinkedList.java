@@ -85,7 +85,13 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int index, E element) {
-		// TODO: fill this in
+		if (index == 0) {
+			head = new Node(element, head);
+		} else {
+			Node node = getNode(index-1);
+			node.next = new Node(element, node.next);
+		}
+		size++;
 	}
 
 	@Override
@@ -146,7 +152,20 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: fill this in
+		f (target == null) {
+			throw new NullPointerException("Object is null");
+		} else if (target.getClass() != head.cargo.getClass()) {
+			throw new ClassCastException("Object is the wrong type");
+		} else {
+			int index = 0;
+			Node node = head;
+			while (node.next != null) {
+				if (node.cargo == target) {
+					return index;
+				}
+				index++;
+			}
+		}
 		return -1;
 	}
 
@@ -201,14 +220,25 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public boolean remove(Object obj) {
-		// TODO: fill this in
-		return false;
+		int index = indexOf(obj);
+		if (index == -1) {
+			return false;
+		}
+		remove(index);
+		return true;
 	}
 
 	@Override
 	public E remove(int index) {
-		// TODO: fill this in
-		return null;
+		E element = get(index);
+		if (index == 0) {
+			head = head.next;
+		} else {
+			Node node = getNode(index-1);
+			node.next = node.next.next;
+		}
+		size--;
+		return element;
 	}
 
 	@Override
@@ -243,7 +273,6 @@ public class MyLinkedList<E> implements List<E> {
 		if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
 			throw new IndexOutOfBoundsException();
 		}
-		// TODO: classify this and improve it.
 		int i = 0;
 		MyLinkedList<E> list = new MyLinkedList<E>();
 		for (Node node=head; node != null; node = node.next) {
